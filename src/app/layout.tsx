@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Providers } from "./redux/provider";
+import { Providers } from "../redux/provider";
 
 export const metadata = {
   title: "Watermark App",

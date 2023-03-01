@@ -3,13 +3,13 @@
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 
-import { setFileAction } from "./redux/slices/fileSlice";
-import { resetWatermarkAction } from "./redux/slices/watermarkSlice";
-import { AppDispatch, RootState } from "./redux/store";
+import { setFileAction } from "../redux/slices/fileSlice";
+import { resetWatermarkAction } from "../redux/slices/watermarkSlice";
+import { AppDispatch, RootState } from "../redux/store";
 
-import { Tools, Watermark } from "./components";
+import { Tools, Watermark } from "../components";
 
-export default function Home() {
+export default function Page() {
   const { file: selectedFile, height, width } = useSelector((state: RootState) => state.file);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -17,6 +17,7 @@ export default function Home() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const data = e.target.files![0];
+      if (!data) return;
       const reader = new FileReader();
       reader.readAsDataURL(data);
       reader.onload = () => {
