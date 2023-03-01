@@ -29,7 +29,13 @@ export default function Home() {
           const ctx = canvas.getContext("2d");
           ctx!.drawImage(img, 0, 0);
           const dataURL = canvas.toDataURL(data.type);
-          dispatch(setFileAction({ file: dataURL, width: img.width, height: img.height }));
+          dispatch(setFileAction({
+            file: dataURL,
+            height: img.height,
+            name: data.name,
+            type: data.type,
+            width: img.width,
+          }));
         };
       };
       dispatch(resetWatermarkAction());

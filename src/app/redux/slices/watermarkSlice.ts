@@ -7,17 +7,17 @@ interface IStartPoint {
 }
 
 export interface IWatermarkState {
-  text?: string;
   color?: string;
-  startPoint?: IStartPoint;
   dropPoint?: IStartPoint;
+  startPoint?: IStartPoint;
+  text?: string;
 }
 
 const initialState: IWatermarkState = {
-  text: "",
   color: "#000000",
-  startPoint: { x: 0, y: 0 },
   dropPoint: { x: 0, y: 0 },
+  startPoint: { x: 0, y: 0 },
+  text: "",
 };
 
 export const watermarkSlice = createSlice({

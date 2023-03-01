@@ -48,7 +48,7 @@ function Watermark() {
   return (
     <div
       id="watermark"
-      className={`absolute w-fit bg-red-600 z-50 cursor-move`}
+      className={`absolute w-fit z-50 cursor-move`}
       draggable
       onDragStart={handleDragStart}
       onDrag={handleDrag}
