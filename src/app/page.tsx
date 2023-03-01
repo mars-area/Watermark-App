@@ -1,68 +1,16 @@
 "use client";
 
+import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setFileAction } from "./redux/slices/fileSlice";
-import {
-  setColorAction,
-  setTextAction
-} from "./redux/slices/watermarkSlice";
+import { resetWatermarkAction } from "./redux/slices/watermarkSlice";
 import { AppDispatch, RootState } from "./redux/store";
 
-import { Watermark } from "./components";
-
-const Tools = () => {
-  const { color, text } = useSelector((state: RootState) => state.watermark);
-  const dispatch = useDispatch<AppDispatch>();
-
-  const handleDownload = () => {
-    const link = document.createElement("a");
-    link.download = "watermark.png";
-
-    const canvas = document.querySelector("canvas");
-    link.href = canvas!.toDataURL();
-    link.click();
-  };
-
-  return (
-    <aside className="flex flex-col items-center w-1/4 p-4 pt-12 bg-gray-800 text-gray-100">
-      <h2 className="text-xl font-semibold">Tools</h2>
-      <div className="mt-8">
-        <label>Text</label>
-        <textarea
-          className="w-full h-1/2 p-2 rounded bg-gray-400/50"
-          onChange={(e) => dispatch(setTextAction(e.target.value))}
-          value={text}
-        />
-
-        <label>Color</label>
-        <div className="flex">
-          <input
-            className="w-full h-12 p-2 rounded bg-gray-400/50"
-            onChange={(e) => dispatch(setColorAction(e.target.value))}
-            type="color"
-            value={color}
-          />
-          <input
-            type={"text"}
-            className="w-full ml-4 h-12 p-2 rounded bg-gray-400/50"
-            value={color}
-            onChange={(e) => dispatch(setColorAction(e.target.value))}
-          />
-        </div>
-      </div>
-      <button
-        className="mt-8 p-2 rounded bg-gray-400/50"
-        onClick={handleDownload}
-      >
-        Download
-      </button>
-    </aside>
-  );
-};
+import { Tools, Watermark } from "./components";
 
 export default function Home() {
-  const { file: selectedFile } = useSelector((state: RootState) => state.file);
+  const { file: selectedFile, height, width } = useSelector((state: RootState) => state.file);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -81,9 +29,10 @@ export default function Home() {
           const ctx = canvas.getContext("2d");
           ctx!.drawImage(img, 0, 0);
           const dataURL = canvas.toDataURL(data.type);
-          dispatch(setFileAction(dataURL));
+          dispatch(setFileAction({ file: dataURL, width: img.width, height: img.height }));
         };
       };
+      dispatch(resetWatermarkAction());
     } catch (error) {
       console.error("handle file change", error);
     }
@@ -99,12 +48,18 @@ export default function Home() {
         {selectedFile && (
           <div className="flex flex-col pt-12 h-3/4 p-4 w-full justify-center items-center">
             <h2 className="text-xl font-semibold">Preview</h2>
-            <div className="flex w-full h-full p-4 bg-gray-800 rounded-md shadow-lg">
+            <div className={`flex h-[${height}px] w-[${width}px] p-4 bg-gray-800 rounded-md shadow-lg`}>
               <div
                 id="preview"
-                className="relative h-full w-full overflow-hidden"
+                className={`relative h-[${height}px] w-[${width}px] overflow-hidden`}
               >
                 <Watermark />
+                <Image
+                  alt={"preview"}
+                  src={selectedFile!}
+                  width={width!}
+                  height={height!}
+                />
               </div>
             </div>
           </div>

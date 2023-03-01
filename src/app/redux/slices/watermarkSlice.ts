@@ -35,11 +35,21 @@ export const watermarkSlice = createSlice({
     },
     setDropPoint: (state, action: PayloadAction<IStartPoint>) => {
       state.dropPoint = action.payload;
-    }
+    },
+    resetWatermark: (state) => {
+      state.startPoint = { x: 0, y: 0 };
+      state.dropPoint = { x: 0, y: 0 };
+    },
   },
 });
 
-export const { setColor, setText, setStartPoint, setDropPoint } = watermarkSlice.actions;
+export const {
+  setColor,
+  setText,
+  resetWatermark,
+  setStartPoint,
+  setDropPoint,
+} = watermarkSlice.actions;
 export default watermarkSlice.reducer;
 
 export const setColorAction = (data: string) => (dispatch: Dispatch) => {
@@ -56,4 +66,8 @@ export const setStartPointAction = (data: IStartPoint) => (dispatch: Dispatch) =
 
 export const setDropPointAction = (data: IStartPoint) => (dispatch: Dispatch) => {
   dispatch(setDropPoint(data));
+};
+
+export const resetWatermarkAction = () => (dispatch: Dispatch) => {
+  dispatch(resetWatermark());
 };
