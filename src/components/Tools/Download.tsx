@@ -11,7 +11,6 @@ function getScaleFactor(
   { width: originalWidth, height: originalHeight }: IImageSize,
   { width: maxWidth, height: maxHeight }: IImageSize
 ): { widthScale: number, heightScale: number } {
-  console.log({originalWidth, originalHeight, maxWidth, maxHeight})
   const widthScale =  originalWidth / maxWidth;
   const heightScale =  originalHeight / maxHeight;
   return { widthScale, heightScale }
