@@ -7,15 +7,19 @@ interface IStartPoint {
 }
 
 export interface IWatermarkState {
-  color?: string;
-  dropPoint?: IStartPoint;
-  startPoint?: IStartPoint;
-  text?: string;
+  color: string;
+  dropPoint: IStartPoint;
+  fontFamily: string;
+  fontSize: number;
+  startPoint: IStartPoint;
+  text: string;
 }
 
 const initialState: IWatermarkState = {
   color: "#000000",
   dropPoint: { x: 0, y: 0 },
+  fontFamily: "sans-serif",
+  fontSize: 16,
   startPoint: { x: 0, y: 0 },
   text: "",
 };
@@ -36,6 +40,12 @@ export const watermarkSlice = createSlice({
     setDropPoint: (state, action: PayloadAction<IStartPoint>) => {
       state.dropPoint = action.payload;
     },
+    setFontFamily: (state, action: PayloadAction<string>) => {
+      state.fontFamily = action.payload;
+    },
+    setFontSize: (state, action: PayloadAction<number>) => {
+      state.fontSize = action.payload;
+    },
     resetWatermark: (state) => {
       state.startPoint = { x: 0, y: 0 };
       state.dropPoint = { x: 0, y: 0 };
@@ -46,9 +56,11 @@ export const watermarkSlice = createSlice({
 export const {
   setColor,
   setText,
-  resetWatermark,
   setStartPoint,
   setDropPoint,
+  setFontFamily,
+  setFontSize,
+  resetWatermark,
 } = watermarkSlice.actions;
 export default watermarkSlice.reducer;
 
@@ -70,4 +82,12 @@ export const setDropPointAction = (data: IStartPoint) => (dispatch: Dispatch) =>
 
 export const resetWatermarkAction = () => (dispatch: Dispatch) => {
   dispatch(resetWatermark());
+};
+
+export const setFontFamilyAction = (data: string) => (dispatch: Dispatch) => {
+  dispatch(setFontFamily(data));
+};
+
+export const setFontSizeAction = (data: number) => (dispatch: Dispatch) => {
+  dispatch(setFontSize(data));
 };

@@ -34,9 +34,10 @@ export default function Page() {
                 <Watermark />
                 <Image
                   alt={"preview"}
+                  height={height!}
+                  id="preview-image"
                   src={selectedFile!}
                   width={width!}
-                  height={height!}
                 />
               </div>
             </div>

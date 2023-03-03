@@ -2,22 +2,60 @@ import { useSelector } from "react-redux";
 
 import { RootState } from "../../redux/store";
 
+interface IImageSize {
+  width: number;
+  height: number;
+}
+
+function getScaleFactor(
+  { width: originalWidth, height: originalHeight }: IImageSize,
+  { width: maxWidth, height: maxHeight }: IImageSize
+): { widthScale: number, heightScale: number } {
+  console.log({originalWidth, originalHeight, maxWidth, maxHeight})
+  const widthScale =  originalWidth / maxWidth;
+  const heightScale =  originalHeight / maxHeight;
+  return { widthScale, heightScale }
+}
+
+function getElementById(id: string): HTMLElement | null {
+  return document.getElementById(id);
+}
+
 const Download = () => {
   const { file, height, name, type, width } = useSelector((state: RootState) => state.file);
-  const { color, text, dropPoint } = useSelector((state: RootState) => state.watermark);
+  const {
+    color,
+    fontFamily,
+    fontSize,
+    text,
+    dropPoint
+  } = useSelector((state: RootState) => state.watermark);
 
   const handleDownload = () => {
+    const previewArea = getElementById("preview-image");
+    if (!previewArea) return;
+
     const img = document.createElement("img");
     img.src = file!;
     img.onload = async () => {
       const canvas = document.createElement("canvas");
       canvas.width = width!;
       canvas.height = height!;
+
+      const scaleFactor = getScaleFactor(
+        { width: width, height: height },
+        { width: previewArea.offsetWidth, height: previewArea.offsetHeight }
+      );
+
       const ctx = canvas.getContext("2d");
       ctx!.drawImage(img, 0, 0);
+      ctx!.font = `${fontSize}px ${fontFamily}`;
       ctx!.fillStyle = color!;
-      ctx!.font = "30px Arial";
-      ctx!.fillText(text!, dropPoint!.x, dropPoint!.y);
+      ctx!.fillText(
+        text!,
+        dropPoint!.x * scaleFactor.widthScale,
+        dropPoint!.y * scaleFactor.heightScale
+      );
 
       const blob = await new Promise<Blob | null>((resolve) => {
         canvas.toBlob((blob) => resolve(blob), type);

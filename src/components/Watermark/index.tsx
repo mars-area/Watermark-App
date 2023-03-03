@@ -7,7 +7,14 @@ import {
 import { AppDispatch, RootState } from "../../redux/store";
 
 function Watermark() {
-  const { color, dropPoint, startPoint, text } = useSelector((state: RootState) => state.watermark);
+  const {
+    color,
+    dropPoint,
+    fontFamily,
+    fontSize,
+    startPoint,
+    text,
+  } = useSelector((state: RootState) => state.watermark);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -53,7 +60,7 @@ function Watermark() {
       onDragStart={handleDragStart}
       onDrag={handleDrag}
       onDragEnd={handleDragEnd}
-      style={{ left: dropPoint!.x, top: dropPoint!.y, color }}
+      style={{ color, fontFamily, fontSize, left: dropPoint!.x, top: dropPoint!.y }}
     >
       {text}
     </div>
