@@ -73,7 +73,7 @@ const Download = () => {
 
   return (
     <button
-      className="mt-8 p-2 rounded bg-gray-400/50"
+      className={`mt-8 py-2 px-4 rounded bg-gray-400/50 hover:bg-gray-400/75 transition-all duration-200 hover:scale-105 active:scale-95`}
       onClick={handleDownload}
     >
       Download
