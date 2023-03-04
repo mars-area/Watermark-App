@@ -9,7 +9,7 @@ const ColorPicker = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   return (
-    <>
+    <div className="flex flex-col">
       <label>Color</label>
       <div className="flex">
         <input
@@ -25,7 +25,7 @@ const ColorPicker = () => {
           onChange={(e) => dispatch(setColorAction(e.target.value))}
         />
       </div>
-    </>
+    </div>
   );
 };
 

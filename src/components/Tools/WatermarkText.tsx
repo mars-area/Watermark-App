@@ -9,14 +9,14 @@ const WatermarkText = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   return (
-    <>
+    <div className="flex flex-col">
       <label>Text</label>
       <textarea
         className="w-full h-1/2 p-2 rounded bg-gray-400/50"
         onChange={(e) => dispatch(setTextAction(e.target.value))}
         value={text}
       />
-    </>
+    </div>
   );
 };
 
